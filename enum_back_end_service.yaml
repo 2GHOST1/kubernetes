@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: enum-backend
+  name: enum-backend
+  namespace: enum
+spec:
+  externalIPs:
+  - 192.168.8.241
+  ipFamilies:
+  - IPv4
+  ports:
+  - nodePort: 32320
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    tier: enum-backend
+  type: LoadBalancer

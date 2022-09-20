@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: apache-enum-server
+    app1: enum
+  name: apache-enum-server
+  namespace: enum
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache-enum-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: apache-enum-server
+    spec:
+      containers:
+      - image: 192.168.8.250:31320/enum_new_front:v1.3
+        imagePullPolicy: IfNotPresent
+        name: apache-enum-server
+        ports:
+        - containerPort: 80
+          protocol: TCP
+      dnsConfig:
+        nameservers:
+        - 8.8.8.8
+      restartPolicy: Always
+
